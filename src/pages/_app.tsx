@@ -3,6 +3,7 @@ import { MantineProvider } from "@mantine/core";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { SessionContextProvider, Session } from "@supabase/auth-helpers-react";
 import { useState } from "react";
+import { Database } from "../../lib/database.types";
 
 export default function BragsheetApp({
   Component,
@@ -11,7 +12,9 @@ export default function BragsheetApp({
   initialSession: Session;
 }>) {
   // Create a new supabase browser client on every first render.
-  const [supabaseClient] = useState(() => createBrowserSupabaseClient());
+  const [supabaseClient] = useState(() =>
+    createBrowserSupabaseClient<Database>()
+  );
 
   return (
     <SessionContextProvider
