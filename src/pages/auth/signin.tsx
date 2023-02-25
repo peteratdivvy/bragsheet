@@ -1,5 +1,6 @@
 import Head from "next/head";
-
+import { Auth, ThemeSupa } from "@supabase/auth-ui-react";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { GetServerSidePropsContext } from "next";
 
@@ -11,27 +12,23 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (!session)
+  if (session) {
     return {
       redirect: {
-        destination: "/auth/signin",
+        destination: "/brags",
         permanent: false,
       },
     };
-
-  // Run queries with RLS on the server
-  const { data } = await supabase.from("users").select("*");
-
-  return {
-    props: {
-      initialSession: session,
-      user: session.user,
-      data: data ?? [],
-    },
-  };
+  } else {
+    return {
+      props: {},
+    };
+  }
 };
 
-export default function Home() {
+export default function SignIn() {
+  const supabase = useSupabaseClient();
+
   return (
     <>
       <Head>
@@ -40,6 +37,15 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <div className="container" style={{ padding: "50px 0 100px 0" }}>
+        <Auth
+          supabaseClient={supabase}
+          appearance={{ theme: ThemeSupa }}
+          theme="dark"
+          redirectTo="/brags"
+          magicLink
+        />
+      </div>
     </>
   );
 }

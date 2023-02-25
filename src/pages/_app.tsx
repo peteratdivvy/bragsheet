@@ -13,7 +13,10 @@ export default function BragsheetApp({
 }>) {
   // Create a new supabase browser client on every first render.
   const [supabaseClient] = useState(() =>
-    createBrowserSupabaseClient<Database>()
+    createBrowserSupabaseClient<Database>({
+      supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
+      supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    })
   );
 
   return (
