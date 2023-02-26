@@ -3,7 +3,7 @@ import { MantineProvider } from "@mantine/core";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { SessionContextProvider, Session } from "@supabase/auth-helpers-react";
 import { useState } from "react";
-import { Database } from "../../lib/database.types";
+import { Database } from "../lib/database.types";
 
 export default function BragsheetApp({
   Component,

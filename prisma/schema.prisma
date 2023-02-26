@@ -11,21 +11,36 @@ datasource db {
 }
 
 model Brag {
-  id       String  @id @default(cuid())
-  title    String
-  content  String
-  category String
-  User     User?   @relation(fields: [userId], references: [id])
-  userId   String?
+  id        String @id @default(cuid())
+  title     String
+  situation String
+  action    String
+  result    String
+
+  userId      String?
+  bragSheetId String?
+
+  BragSheet BragSheet? @relation(fields: [bragSheetId], references: [id])
+  User      User?      @relation(fields: [userId], references: [id])
+}
+
+model BragSheet {
+  id    String @id @default(cuid())
+  title String
+  Brags Brag[]
+
+  User   User   @relation(fields: [userId], references: [id])
+  userId String
 }
 
 model User {
   id        String   @id @default(cuid())
-  name      String?
   email     String?  @unique
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @updatedAt @map(name: "updated_at")
-  brags     Brag[]
+
+  bragSheets BragSheet[]
+  Brag       Brag[]
 
   @@map(name: "users")
 }
