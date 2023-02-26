@@ -11,22 +11,23 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (!session)
+  if (!session) {
     return {
       redirect: {
         destination: "/auth/signin",
         permanent: false,
       },
     };
+  }
 
   // Run queries with RLS on the server
   const { data } = await supabase.from("users").select("*");
 
   return {
-    props: {
-      initialSession: session,
-      user: session.user,
-      data: data ?? [],
+    props: {},
+    redirect: {
+      destination: "/sheets",
+      permanent: false,
     },
   };
 };
