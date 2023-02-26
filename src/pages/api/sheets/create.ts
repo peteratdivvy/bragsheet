@@ -11,14 +11,14 @@ const apiRoute = createHandler(async (req, res) => {
   const userId = req.userId;
   const { title } = req.body as RequestBody;
 
-  await prisma.bragSheet.create({
+  const createdBragSheet = await prisma.bragSheet.create({
     data: {
       title,
       User: { connect: { id: userId } },
     },
   });
 
-  res.json({ success: true });
+  res.status(200).json({ ok: true, id: createdBragSheet.id });
 });
 
 export default apiRoute;

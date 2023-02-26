@@ -1,5 +1,5 @@
 import PageHeader from "@/components/PageHeader";
-import { fetchWithAuth } from "@/utils/api";
+import { ssrFetchWithAuth } from "@/utils/api";
 import { BragSheet } from "@prisma/client";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Link from "next/link";
@@ -11,7 +11,7 @@ type RequestData = {
 export const getServerSideProps: GetServerSideProps<RequestData> = async (
   ctx
 ) => {
-  const { sheets } = await fetchWithAuth(ctx, {
+  const { sheets } = await ssrFetchWithAuth(ctx, {
     url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/sheets/get`,
     method: "GET",
   });

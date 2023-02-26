@@ -1,22 +1,26 @@
 import { GetServerSidePropsContext } from "next";
-import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
-
+import {
+  createBrowserSupabaseClient,
+  createServerSupabaseClient,
+} from "@supabase/auth-helpers-nextjs";
 import { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
+
+import { Database } from "../lib/database.types";
 
 interface AuthenticatedRequest extends NextApiRequest {
   userId: string;
 }
 
-interface FetchWithAuthOptions {
+interface FetchOptions {
   url: string;
   method: "GET" | "POST" | "PUT" | "DELETE";
   body?: Record<string, unknown> | string;
 }
 
-export const fetchWithAuth = async (
+export const ssrFetchWithAuth = async (
   ctx: GetServerSidePropsContext,
-  options: FetchWithAuthOptions
+  options: FetchOptions
 ) => {
   const supabase = createServerSupabaseClient(ctx);
   const session = await supabase.auth.getSession();
@@ -45,6 +49,37 @@ export const fetchWithAuth = async (
 
   return res.json();
 };
+
+export async function clientFetchWithAuth(
+  options: FetchOptions
+): Promise<Response> {
+  const supabase = createBrowserSupabaseClient<Database>();
+  const session = await supabase.auth.getSession();
+  const token = session?.data.session?.access_token;
+
+  if (!session || !token) {
+    throw new Error("Not authenticated");
+  }
+
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+
+  const { url, method, body } = options;
+
+  const res = await fetch(url, {
+    method,
+    headers,
+    body: typeof body === "string" ? body : JSON.stringify(body),
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch ${url}: ${res.status} ${res.statusText}`);
+  }
+
+  return res.json();
+}
 
 export const createHandler = (
   handler: (req: AuthenticatedRequest, res: NextApiResponse) => void

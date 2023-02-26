@@ -1,39 +1,44 @@
+import { Form } from "@/components/Form";
 import PageHeader from "@/components/PageHeader";
+import { clientFetchWithAuth } from "@/utils/api";
 import { Button } from "@mantine/core";
-import { useSession } from "@supabase/auth-helpers-react";
+import { useRouter } from "next/router";
+import { z } from "zod";
+
+const CreateBragSheetSchema = z.object({
+  title: z.string(),
+});
 
 export default function CreateBragSheet() {
-  const session = useSession();
-
-  async function createBragSheet(title: string, userId: string) {
-    const response = await fetch("/api/sheets/create", {
+  const router = useRouter();
+  async function onSubmit(data: z.infer<typeof CreateBragSheetSchema>) {
+    const response = (await clientFetchWithAuth({
+      url: "/api/sheets/create",
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ title, userId }),
-    });
+      body: JSON.stringify({ title: data.title }),
+    })) as any as {
+      ok: boolean;
+      id: string;
+      statusText: string;
+    };
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message);
+      throw new Error(await response.statusText);
     }
 
-    const createdSheet = await response.json();
-    return createdSheet;
+    router.push(`/sheets/${response.id}`);
+    return response;
   }
 
   return (
     <>
       <PageHeader />
       <h1>Create Brag Sheet</h1>
-      <Button
-        onClick={() => {
-          createBragSheet("Peters Test", session?.user.id as string);
-        }}
-      >
-        Create Sheet
-      </Button>
+      <Form
+        schema={CreateBragSheetSchema}
+        onSubmit={onSubmit}
+        renderAfter={() => <Button type="submit">Submit</Button>}
+      />
     </>
   );
 }

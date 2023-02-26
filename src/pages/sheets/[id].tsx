@@ -1,11 +1,11 @@
-import { fetchWithAuth } from "@/utils/api";
+import { ssrFetchWithAuth } from "@/utils/api";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { params } = ctx;
   const sheetId = params?.id as string;
 
-  const sheet = await fetchWithAuth(ctx, {
+  const sheet = await ssrFetchWithAuth(ctx, {
     url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/sheet/get/${sheetId}`,
     method: "GET",
   });
