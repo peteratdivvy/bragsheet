@@ -11,7 +11,7 @@ type RequestData = {
 export const getServerSideProps: GetServerSideProps<RequestData> = async (
   ctx
 ) => {
-  const sheets = await fetchWithAuth(ctx, {
+  const { sheets } = await fetchWithAuth(ctx, {
     url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/sheets/get`,
     method: "GET",
   });

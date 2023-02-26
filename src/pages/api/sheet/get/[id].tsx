@@ -5,7 +5,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const id = req.query.id as string; // Extract the ID from the query parameters
+  const id = req.query.id as string;
 
   const bragSheet = await prisma.bragSheet.findUnique({
     where: { id },

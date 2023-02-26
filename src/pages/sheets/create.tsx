@@ -4,6 +4,7 @@ import { useSession } from "@supabase/auth-helpers-react";
 
 export default function CreateBragSheet() {
   const session = useSession();
+
   async function createBragSheet(title: string, userId: string) {
     const response = await fetch("/api/sheets/create", {
       method: "POST",
