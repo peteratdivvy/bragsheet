@@ -1,7 +1,7 @@
 import { Form } from "@/components/Form";
 import PageHeader from "@/components/PageHeader";
 import { clientFetchWithAuth } from "@/utils/api";
-import { Button } from "@mantine/core";
+import { Button, Container } from "@mantine/core";
 import { useRouter } from "next/router";
 import { z } from "zod";
 
@@ -33,12 +33,14 @@ export default function CreateBragSheet() {
   return (
     <>
       <PageHeader />
-      <h1>Create Brag Sheet</h1>
-      <Form
-        schema={CreateBragSheetSchema}
-        onSubmit={onSubmit}
-        renderAfter={() => <Button type="submit">Submit</Button>}
-      />
+      <Container size="sm">
+        <h1>Create Brag Sheet</h1>
+        <Form
+          schema={CreateBragSheetSchema}
+          onSubmit={onSubmit}
+          renderAfter={() => <Button type="submit">Submit</Button>}
+        />
+      </Container>
     </>
   );
 }

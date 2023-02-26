@@ -1,6 +1,6 @@
 import { ssrFetchWithAuth } from "@/utils/api";
 import { Container, List, Text, Title } from "@mantine/core";
-import { Brag, BragSheet } from "@prisma/client";
+import { Brag } from "@prisma/client";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import CreateIndividualBrag from "./components/CreateBrag";
 

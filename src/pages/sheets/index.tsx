@@ -1,5 +1,6 @@
 import PageHeader from "@/components/PageHeader";
 import { ssrFetchWithAuth } from "@/utils/api";
+import { Container } from "@mantine/core";
 import { BragSheet } from "@prisma/client";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Link from "next/link";
@@ -29,15 +30,17 @@ export default function BragSheetPage({
   return (
     <>
       <PageHeader />
-      <h1>List of brag sheets to choose from</h1>
+      <Container size="sm">
+        <h1>List of brag sheets to choose from</h1>
 
-      {sheets.map((sheet) => {
-        return (
-          <Link key={sheet.id} href={`sheets/${sheet.id}`}>
-            {sheet.title}
-          </Link>
-        );
-      })}
+        {sheets.map((sheet) => {
+          return (
+            <Link key={sheet.id} href={`sheets/${sheet.id}`}>
+              {sheet.title}
+            </Link>
+          );
+        })}
+      </Container>
     </>
   );
 }

@@ -3,6 +3,7 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { GetServerSidePropsContext } from "next";
 import PageHeader from "@/components/PageHeader";
+import { Container } from "@mantine/core";
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const supabase = createServerSupabaseClient(ctx);
@@ -31,7 +32,7 @@ export default function SignIn() {
   return (
     <>
       <PageHeader />
-      <div className="container" style={{ padding: "50px 0 100px 0" }}>
+      <Container size="sm">
         <Auth
           supabaseClient={supabase}
           appearance={{ theme: ThemeSupa }}
@@ -39,7 +40,7 @@ export default function SignIn() {
           redirectTo="/sheets"
           magicLink
         />
-      </div>
+      </Container>
     </>
   );
 }
