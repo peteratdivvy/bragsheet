@@ -1,7 +1,19 @@
 import { ssrFetchWithAuth } from "@/utils/api";
+import { Container, List, Text, Title } from "@mantine/core";
+import { Brag, BragSheet } from "@prisma/client";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import CreateIndividualBrag from "./components/CreateBrag";
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+type RequestData = {
+  sheet: {
+    Brags: Brag[];
+    title: string;
+  };
+};
+
+export const getServerSideProps: GetServerSideProps<RequestData> = async (
+  ctx
+) => {
   const { params } = ctx;
   const sheetId = params?.id as string;
 
@@ -27,10 +39,20 @@ const BragSheetPage = (
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) => {
   const { sheet } = props;
+
   return (
-    <div>
-      <h1>{sheet.title}</h1>
-    </div>
+    <Container size="sm" title="Tester">
+      <Title>{sheet.title}</Title>
+      <List>
+        {sheet.Brags.map((brag) => (
+          <List.Item key={brag.id}>
+            <Text variant="text">Situation: {brag.situation}</Text>
+          </List.Item>
+        ))}
+      </List>
+
+      <CreateIndividualBrag />
+    </Container>
   );
 };
 
