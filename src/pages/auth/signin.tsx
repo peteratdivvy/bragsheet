@@ -16,7 +16,6 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     return {
       redirect: {
         destination: "/sheets",
-        permanent: false,
       },
     };
   } else {
@@ -37,8 +36,10 @@ export default function SignIn() {
           supabaseClient={supabase}
           appearance={{ theme: ThemeSupa }}
           theme="dark"
+          dark
           redirectTo="/sheets"
           magicLink
+          view="magic_link"
         />
       </Container>
     </>
