@@ -1,6 +1,6 @@
 import { useUser } from "@/hooks/useUser";
+
 import { AppShell, Navbar, Header, Flex } from "@mantine/core";
-import { useSession } from "@supabase/auth-helpers-react";
 import Link from "next/link";
 import { ReactNode } from "react";
 
