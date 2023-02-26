@@ -4,6 +4,7 @@ import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { SessionContextProvider, Session } from "@supabase/auth-helpers-react";
 import { useState } from "react";
 import { Database } from "../lib/database.types";
+import { Layout } from "@/components/Layout";
 
 export default function BragsheetApp({
   Component,
@@ -32,7 +33,9 @@ export default function BragsheetApp({
           colorScheme: "light",
         }}
       >
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </MantineProvider>
     </SessionContextProvider>
   );
