@@ -27,7 +27,7 @@ model Brag {
 model BragSheet {
   id    String @id @default(cuid())
   title String
-  Brags Brag[]
+  brags Brag[]
 
   User   User   @relation(fields: [userId], references: [id])
   userId String

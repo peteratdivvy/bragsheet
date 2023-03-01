@@ -10,7 +10,7 @@ export default async function handler(
   const bragSheet = await prisma.bragSheet.findUnique({
     where: { id },
     include: {
-      Brags: true,
+      brags: true,
     },
   });
 

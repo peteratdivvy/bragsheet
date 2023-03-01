@@ -6,7 +6,7 @@ import CreateIndividualBrag from "./components/CreateBrag";
 
 type RequestData = {
   sheet: {
-    Brags: Brag[];
+    brags: Brag[];
     title: string;
   };
 };
@@ -44,7 +44,7 @@ const BragSheetPage = (
     <Container size="sm" title="Tester">
       <Title>{sheet.title}</Title>
       <List>
-        {sheet.Brags.map((brag) => (
+        {sheet.brags.map((brag) => (
           <List.Item key={brag.id}>
             <Text variant="text">Situation: {brag.situation}</Text>
           </List.Item>

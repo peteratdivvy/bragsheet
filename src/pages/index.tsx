@@ -20,15 +20,8 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     };
   }
 
-  // Run queries with RLS on the server
-  const { data } = await supabase.from("users").select("*");
-
   return {
     props: {},
-    redirect: {
-      destination: "/sheets",
-      permanent: false,
-    },
   };
 };
 

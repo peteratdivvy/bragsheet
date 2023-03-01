@@ -6,12 +6,12 @@ import { useState } from "react";
 import { Database } from "../lib/database.types";
 import { Layout } from "@/components/Layout";
 
-export default function BragsheetApp({
+const BragsheetApp = ({
   Component,
   pageProps,
 }: AppProps<{
   initialSession: Session;
-}>) {
+}>) => {
   // Create a new supabase browser client on every first render.
   const [supabaseClient] = useState(() =>
     createBrowserSupabaseClient<Database>({
@@ -39,4 +39,6 @@ export default function BragsheetApp({
       </MantineProvider>
     </SessionContextProvider>
   );
-}
+};
+
+export default BragsheetApp;
