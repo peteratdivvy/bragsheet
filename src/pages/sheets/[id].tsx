@@ -46,7 +46,7 @@ const BragSheetPage = (
       <List>
         {sheet.brags.map((brag) => (
           <List.Item key={brag.id}>
-            <Text variant="text">Situation: {brag.situation}</Text>
+            <Text variant="text">{brag.content}</Text>
           </List.Item>
         ))}
       </List>

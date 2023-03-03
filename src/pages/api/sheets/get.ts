@@ -3,16 +3,21 @@ import { createHandler } from "@/utils/api";
 
 const apiRoute = createHandler(async (req, res) => {
   const userId = req.userId;
-  const bragSheetList = await prisma.bragSheet.findMany({
+  const bragsheets = await prisma.bragSheet.findMany({
     where: {
       userId,
     },
+    include: {
+      _count: true,
+    },
   });
 
-  if (!bragSheetList) {
-    res.status(404).json({ message: "Brag sheet not found" });
-    return;
-  }
+  const bragSheetList = bragsheets.map((bragSheet) => ({
+    ...bragSheet,
+    id: bragSheet.id,
+    title: bragSheet.title,
+    bragCount: bragSheet._count.brags,
+  }));
 
   res.json({
     sheets: bragSheetList,

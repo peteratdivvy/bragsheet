@@ -1,6 +1,6 @@
 import { useUser } from "@/hooks/useUser";
 
-import { AppShell, Navbar, Header, Flex } from "@mantine/core";
+import { AppShell, Navbar, Header, Flex, Space } from "@mantine/core";
 import Link from "next/link";
 import { ReactNode } from "react";
 
@@ -10,9 +10,15 @@ export function Layout({ children }: { children: ReactNode }) {
     <AppShell
       padding="md"
       header={
-        <Header height={60} p="xs">
+        <Header height={60} p="lg">
           <Flex justify="space-between">
-            <Link href="/">Home</Link>
+            <Flex justify="space-between">
+              <Link prefetch href="/">
+                Home
+              </Link>
+              <Space w="md" />
+              <Link href="/sheets">Sheets</Link>
+            </Flex>
 
             <Link href={user ? "/auth/signout" : "/auth/signin"}>
               {user ? "Sign out" : "Sign in"}

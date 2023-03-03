@@ -1,12 +1,16 @@
 import PageHeader from "@/components/PageHeader";
 import { ssrFetchWithAuth } from "@/utils/api";
-import { Container } from "@mantine/core";
+import { Container, Text } from "@mantine/core";
 import { BragSheet } from "@prisma/client";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import Link from "next/link";
+import BragSheetListItem from "./components/BragSheetListItem";
+
+type ExtendedBragSheet = BragSheet & {
+  bragCount: number;
+};
 
 type RequestData = {
-  sheets: BragSheet[];
+  sheets: ExtendedBragSheet[];
 };
 
 export const getServerSideProps: GetServerSideProps<RequestData> = async (
@@ -31,15 +35,21 @@ export default function BragSheetPage({
     <>
       <PageHeader />
       <Container size="sm">
-        <h1>List of brag sheets to choose from</h1>
+        <Text variant="text" size="xl" weight="bolder">
+          Bragsheets
+        </Text>
 
-        {sheets.map((sheet) => {
-          return (
-            <Link key={sheet.id} href={`sheets/${sheet.id}`}>
-              {sheet.title}
-            </Link>
-          );
-        })}
+        {sheets.map((sheet) => (
+          <BragSheetListItem
+            key={sheet.id}
+            id={sheet.id}
+            title={sheet.title}
+            description={sheet.description}
+            bragCount={sheet.bragCount}
+            createdAt={sheet.createdAt}
+            updatedAt={sheet.updatedAt}
+          />
+        ))}
       </Container>
     </>
   );

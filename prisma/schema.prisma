@@ -11,23 +11,30 @@ datasource db {
 }
 
 model Brag {
-  id        String @id @default(cuid())
-  title     String
-  situation String
-  action    String
-  result    String
+  id      String @id @default(cuid())
+  title   String
+  content String
 
-  userId      String?
+  deleted   Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  BragSheet   BragSheet? @relation(fields: [bragSheetId], references: [id])
   bragSheetId String?
 
-  BragSheet BragSheet? @relation(fields: [bragSheetId], references: [id])
-  User      User?      @relation(fields: [userId], references: [id])
+  User   User?   @relation(fields: [userId], references: [id])
+  userId String?
 }
 
 model BragSheet {
-  id    String @id @default(cuid())
-  title String
-  brags Brag[]
+  id          String @id @default(cuid())
+  title       String
+  description String
+  brags       Brag[]
+
+  deleted   Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   User   User   @relation(fields: [userId], references: [id])
   userId String

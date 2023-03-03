@@ -11,47 +11,62 @@ export interface Database {
     Tables: {
       Brag: {
         Row: {
-          action: string
           bragSheetId: string | null
+          content: string
+          createdAt: string
+          deleted: boolean
           id: string
-          result: string
-          situation: string
           title: string
+          updatedAt: string
           userId: string | null
         }
         Insert: {
-          action: string
           bragSheetId?: string | null
+          content: string
+          createdAt?: string
+          deleted?: boolean
           id: string
-          result: string
-          situation: string
           title: string
+          updatedAt?: string
           userId?: string | null
         }
         Update: {
-          action?: string
           bragSheetId?: string | null
+          content?: string
+          createdAt?: string
+          deleted?: boolean
           id?: string
-          result?: string
-          situation?: string
           title?: string
+          updatedAt?: string
           userId?: string | null
         }
       }
       BragSheet: {
         Row: {
+          createdAt: string
+          deleted: boolean
+          description: string
           id: string
           title: string
+          updatedAt: string
           userId: string
         }
         Insert: {
+          createdAt?: string
+          deleted?: boolean
+          description: string
           id: string
           title: string
+          updatedAt?: string
           userId: string
         }
         Update: {
+          createdAt?: string
+          deleted?: boolean
+          description?: string
           id?: string
           title?: string
+          updatedAt?: string
           userId?: string
         }
       }

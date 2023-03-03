@@ -8,9 +8,7 @@ import { z } from "zod";
 
 const CreateBrag = z.object({
   title: z.string(),
-  situation: z.string(),
-  action: z.string(),
-  result: z.string(),
+  content: z.string(),
 });
 
 export default function CreateIndividualBrag() {
@@ -22,9 +20,7 @@ export default function CreateIndividualBrag() {
       body: JSON.stringify({
         bragSheetId: router.query.id,
         title: data.title,
-        situation: data.situation,
-        action: data.action,
-        result: data.result,
+        content: data.content,
       }),
     })) as any as {
       ok: boolean;

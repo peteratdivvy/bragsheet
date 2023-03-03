@@ -7,6 +7,7 @@ import { z } from "zod";
 
 const CreateBragSheetSchema = z.object({
   title: z.string(),
+  description: z.string(),
 });
 
 export default function CreateBragSheet() {
@@ -15,7 +16,10 @@ export default function CreateBragSheet() {
     const response = (await clientFetchWithAuth({
       url: "/api/sheets/create",
       method: "POST",
-      body: JSON.stringify({ title: data.title }),
+      body: JSON.stringify({
+        title: data.title,
+        description: data.description,
+      }),
     })) as any as {
       ok: boolean;
       id: string;

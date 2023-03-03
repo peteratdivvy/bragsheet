@@ -9,7 +9,8 @@
     "lint": "next lint",
     "db:generate": "prisma generate",
     "db:format": "prisma format",
-    "db:push": "prisma db push"
+    "db:push": "prisma db push",
+    "db:types": "npx supabase gen types typescript --project-id vjljiinpcdxbawnwiiaw > src/lib/database.types.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",

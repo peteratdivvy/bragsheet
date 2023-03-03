@@ -4,16 +4,17 @@ import prisma from "@prisma";
 
 type RequestBody = {
   title: string;
-  userId: string;
+  description: string;
 };
 
 const apiRoute = createHandler(async (req, res) => {
   const userId = req.userId;
-  const { title } = req.body as RequestBody;
+  const { title, description } = req.body as RequestBody;
 
   const createdBragSheet = await prisma.bragSheet.create({
     data: {
       title,
+      description,
       User: { connect: { id: userId } },
     },
   });
