@@ -1,0 +1,21 @@
+name: Turbo Build Lint
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Turbo Build
+        run: |
+          npm install -g @turbo/turbo-cli
+
+      - name: Run Turbo Build Lint
+        run: |
+          turbo build lint
