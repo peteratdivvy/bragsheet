@@ -7,7 +7,7 @@ type RequestBody = Brag;
 
 const createBragHandler = createHandler(async (req, res) => {
   const userId = req.userId;
-  const { content, bragSheetId, title } = req.body as RequestBody;
+  const { content, bragSheetId, title, source } = req.body as RequestBody;
 
   const createdBrag = await prisma.brag.create({
     data: {
@@ -15,6 +15,7 @@ const createBragHandler = createHandler(async (req, res) => {
       content,
       bragSheetId,
       userId,
+      source: source || "SITE",
     },
   });
 

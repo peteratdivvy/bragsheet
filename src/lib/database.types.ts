@@ -16,6 +16,7 @@ export interface Database {
           createdAt: string
           deleted: boolean
           id: string
+          source: string
           title: string
           updatedAt: string
           userId: string | null
@@ -26,6 +27,7 @@ export interface Database {
           createdAt?: string
           deleted?: boolean
           id: string
+          source: string
           title: string
           updatedAt?: string
           userId?: string | null
@@ -36,6 +38,7 @@ export interface Database {
           createdAt?: string
           deleted?: boolean
           id?: string
+          source?: string
           title?: string
           updatedAt?: string
           userId?: string | null
