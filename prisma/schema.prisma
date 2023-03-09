@@ -10,10 +10,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Source {
+  SITE
+  SLACK
+  RAYCAST
+  EMAIL
+  MAC_CLIENT
+  CLI
+}
+
 model Brag {
   id      String @id @default(cuid())
   title   String
   content String
+  source  Source
 
   deleted   Boolean  @default(false)
   createdAt DateTime @default(now())
