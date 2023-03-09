@@ -1,20 +1,30 @@
 import { AppProps } from "next/app";
-import Head from "next/head";
 import { MantineProvider } from "@mantine/core";
+import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { SessionContextProvider, Session } from "@supabase/auth-helpers-react";
+import { useState } from "react";
+import { Database } from "../lib/database.types";
+import { Layout } from "@/components/Layout";
 
-export default function App(props: AppProps) {
-  const { Component, pageProps } = props;
+const BragsheetApp = ({
+  Component,
+  pageProps,
+}: AppProps<{
+  initialSession: Session;
+}>) => {
+  // Create a new supabase browser client on every first render.
+  const [supabaseClient] = useState(() =>
+    createBrowserSupabaseClient<Database>({
+      supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
+      supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    })
+  );
 
   return (
-    <>
-      <Head>
-        <title>Page title</title>
-        <meta
-          name="viewport"
-          content="minimum-scale=1, initial-scale=1, width=device-width"
-        />
-      </Head>
-
+    <SessionContextProvider
+      supabaseClient={supabaseClient}
+      initialSession={pageProps.initialSession}
+    >
       <MantineProvider
         withGlobalStyles
         withNormalizeCSS
@@ -23,8 +33,12 @@ export default function App(props: AppProps) {
           colorScheme: "light",
         }}
       >
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </MantineProvider>
-    </>
+    </SessionContextProvider>
   );
-}
+};
+
+export default BragsheetApp;
