@@ -2,10 +2,11 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
-
 import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
+  const hasBrags = api.bragsheets.hasBrags.useQuery();
+  const { mutate } = api.bragsheets.create.useMutation();
   return (
     <>
       <Head>
@@ -43,6 +44,20 @@ const Home: NextPage = () => {
             </Link>
           </div>
           <div className="flex flex-col items-center gap-2">
+            {hasBrags.data ? (
+              <p className="text-p">Has brags</p>
+            ) : (
+              <button
+                onClick={() => {
+                  mutate({
+                    title: "Test title",
+                    description: "Test description",
+                  });
+                }}
+              >
+                Create brag
+              </button>
+            )}
             <AuthShowcase />
           </div>
         </div>

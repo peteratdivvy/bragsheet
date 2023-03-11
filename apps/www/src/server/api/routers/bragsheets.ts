@@ -2,6 +2,15 @@ import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const bragsheetsRouter = createTRPCRouter({
+  hasBrags: protectedProcedure.query(async ({ ctx }) => {
+    const bragCount = await ctx.prisma.bragSheet.count({
+      where: {
+        userId: ctx.session.user.id,
+      },
+    });
+
+    return bragCount > 0;
+  }),
   getAll: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.bragSheet.findMany({
       where: {
