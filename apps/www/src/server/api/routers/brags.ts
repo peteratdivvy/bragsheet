@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
-export const bragsheetsRouter = createTRPCRouter({
+export const bragsRouter = createTRPCRouter({
   hasBrags: protectedProcedure.query(async ({ ctx }) => {
     const bragCount = await ctx.prisma.bragSheet.count({
       where: {
@@ -10,23 +10,6 @@ export const bragsheetsRouter = createTRPCRouter({
     });
 
     return bragCount > 0;
-  }),
-  getAll: protectedProcedure.query(({ ctx }) => {
-    return ctx.prisma.bragSheet.findMany({
-      where: {
-        userId: ctx.session.user.id,
-      },
-      select: {
-        id: true,
-        title: true,
-        description: true,
-        _count: {
-          select: {
-            brags: true,
-          },
-        },
-      },
-    });
   }),
 
   byId: protectedProcedure
@@ -38,9 +21,8 @@ export const bragsheetsRouter = createTRPCRouter({
     .query(({ ctx, input }) => {
       // Fetch the bragsheet by ID using your data fetching logic
       // For example, using Prisma:
-      return ctx.prisma.bragSheet.findUnique({
+      return ctx.prisma.brag.findUnique({
         where: { id: input.id },
-        include: { brags: true },
       });
     }),
 
