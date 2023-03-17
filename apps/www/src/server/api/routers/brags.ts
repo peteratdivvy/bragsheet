@@ -30,15 +30,18 @@ export const bragsRouter = createTRPCRouter({
     .input(
       z.object({
         title: z.string().min(1),
-        description: z.string().min(1),
+        content: z.string().min(1),
+        bragsheetId: z.string().min(1),
       })
     )
     .mutation(({ ctx, input }) => {
-      return ctx.prisma.bragSheet.create({
+      return ctx.prisma.brag.create({
         data: {
           title: input.title,
-          description: input.description,
-          User: { connect: { id: ctx.session.user.id } },
+          content: input.content,
+          bragSheetId: input.bragsheetId,
+          userId: ctx.session.user.id,
+          source: "SITE",
         },
       });
     }),

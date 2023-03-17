@@ -1,16 +1,13 @@
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
+import { getRequiredParams } from "~/utils/routing";
 
 export default function BragPage() {
   const router = useRouter();
-  const { bragId = "" } = router.query;
-
-  if (!bragId) {
-    return null;
-  }
+  const bragId = getRequiredParams(router.query, "bragId");
 
   const bragQuery = api.brags.byId.useQuery({
-    id: (Array.isArray(bragId) ? bragId[0] : bragId) || "",
+    id: bragId,
   });
 
   if (bragQuery.isLoading) {
