@@ -10,7 +10,8 @@ export function getRequiredParams(params: ParsedUrlQuery, key: string) {
     : paramValue;
 
   if (!resultingParamValue) {
-    throw new Error(`Missing param value for key $${key}`);
+    console.error(`Missing param value for key $${key}`);
+    return "";
   }
 
   return resultingParamValue;

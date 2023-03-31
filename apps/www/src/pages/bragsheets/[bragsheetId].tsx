@@ -1,13 +1,13 @@
-// pages/bragsheets/[id].tsx
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { Dialog, Transition } from "@headlessui/react";
 import { api } from "~/utils/api";
 import { getRequiredParams } from "~/utils/routing";
 
 export default function BragsheetPage() {
   const router = useRouter();
-  const bragsheetId = getRequiredParams(router.query, "bragsheetId");
+  const bragsheetId = getRequiredParams(router.query, "bragsheetId", router);
 
   const bragsheetQuery = api.bragsheets.byId.useQuery({
     id: (Array.isArray(bragsheetId) ? bragsheetId[0] : bragsheetId) || "",
@@ -35,6 +35,7 @@ export default function BragsheetPage() {
         onSuccess: () => {
           setTitle("");
           setContent("");
+          setIsModalOpen(false);
           bragsheetQuery.refetch();
         },
       }
@@ -80,6 +81,97 @@ export default function BragsheetPage() {
           Add Brag
         </button>
       </div>
+      <Transition.Root show={isModalOpen} as={Fragment}>
+        <Dialog
+          as="div"
+          static
+          className="fixed inset-0 z-10 overflow-y-auto"
+          open={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        >
+          <div className="min-h-screen px-4 text-center">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+            </Transition.Child>
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 scale-95"
+              enterTo="opacity-100 scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 scale-100"
+              leaveTo="opacity-0 scale-95"
+            >
+              <div className="my-8 inline-block w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Title
+                  as="h3"
+                  className="text-lg font-medium leading-6 text-gray-900"
+                >
+                  Add a Brag
+                </Dialog.Title>
+
+                <div className="mt-4">
+                  <label
+                    htmlFor="title"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Title
+                  </label>
+                  <input
+                    id="title"
+                    name="title"
+                    type="text"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+                  />
+                </div>
+
+                <div className="mt-4">
+                  <label
+                    htmlFor="content"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Content
+                  </label>
+                  <textarea
+                    id="content"
+                    name="content"
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+                  ></textarea>
+                </div>
+
+                <div className="mt-6 flex justify-end">
+                  <button
+                    type="button"
+                    onClick={() => setIsModalOpen(false)}
+                    className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    onClick={createBrag}
+                    className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-purple-600 px-4 py-2 text-sm font-medium text-white hover:bg-purple-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2"
+                  >
+                    Add Brag
+                  </button>
+                </div>
+              </div>
+            </Transition.Child>
+          </div>
+        </Dialog>
+      </Transition.Root>
     </div>
   );
 }
